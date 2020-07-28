@@ -1,8 +1,10 @@
 # frozen_string_literal: true
-
+require 'pry'
+require File.join(File.dirname(__FILE__), 'ghost')
 # Principal board class where the game execution becomes fun!!
 class Board
   def initialize
+    @ghosts = 10.times.map { Ghost.new(rand(1..9), rand(1..9)) }
     @board = initialize_board(20, '.')
   end
 
@@ -20,7 +22,17 @@ class Board
       (height * 2).times { row.push((rand(1..2) % 2).zero? ? value : '*') }
       board << row
     end
+    board = add_ghosts(board)
     board_frames(board)
+  end
+
+  def add_ghosts(board)
+    @ghosts.each do |ghost|
+      x = ghost.pos_x
+      y = ghost.pos_y
+      board[x][y] = 'm'
+    end
+    board
   end
 
   def board_frames(board)
