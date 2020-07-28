@@ -1,16 +1,14 @@
 # frozen_string_literal: true
+
 require File.join(File.dirname(__FILE__), 'board')
 # show me you moves...!
 class Movement
-  def stay
-    
-  end
+  def stay; end
 end
 
-# Ghosts... B00‼
+# Ghosts... B0!!
 class Ghosts
-
-GHOSTS = { blinky: 'm', inky: 'm', pinky: 'm', clyde: 'm'}
+  GHOSTS = { blinky: 'm', inky: 'm', pinky: 'm', clyde: 'm' }.freeze
   def blinky
     movement = rand(0..4)
     case movement
@@ -23,12 +21,9 @@ GHOSTS = { blinky: 'm', inky: 'm', pinky: 'm', clyde: 'm'}
     end
   end
 
-  def pinky
-  end
+  def pinky; end
 
-  def inky
-  end
+  def inky; end
 
-  def clyde
-  end
+  def clyde; end
 end

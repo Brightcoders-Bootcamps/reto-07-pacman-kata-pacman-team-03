@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Principal board class where the game execution becomes fun!!
 class Pacman
   def initialize
     @lives = 5
@@ -12,13 +13,13 @@ class Pacman
 
   def direction(value)
     if value == 'e'
-      return 'v'
+      'v'
     elsif value == 'd'
-      return '^'
+      '^'
     elsif value == 's'
-      return '>'
+      '>'
     elsif value == 'f'
-      return '<'
+      '<'
     end
   end
 end
