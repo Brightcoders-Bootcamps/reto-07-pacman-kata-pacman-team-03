@@ -1,25 +1,34 @@
 # frozen_string_literal: true
 
+require File.join(File.dirname(__FILE__), 'ghost')
 # Principal board class where the game execution becomes fun!!
-class Pacman
-  def initialize
+class Pacman < Ghost
+  attr_accessor :pos_x, :pos_y
+  attr_reader :avatar
+
+  def initialize(pos_x, pos_y)
+    @pos_x = pos_x
+    @pos_y = pos_y
     @lives = 5
-    @score = 0
+    @avatar = 'v'
   end
 
-  def add_score
-    @score += 1
+  def rest_lives
+    @lives -= 1
   end
 
   def direction(value)
-    if value == 'e'
-      'v'
-    elsif value == 'd'
-      '^'
-    elsif value == 's'
-      '>'
-    elsif value == 'f'
-      '<'
+    case value
+    when 'e'
+      @avatar = 'v'
+    when 'd'
+      @avatar = '^'
+    when 's'
+      @avatar = '>'
+    when 'f'
+      @avatar = '<'
+    else
+      puts "INVALID OPTION: #{value}"
     end
   end
 end

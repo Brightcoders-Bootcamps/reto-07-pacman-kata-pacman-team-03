@@ -28,3 +28,7 @@ Style/SlicingWithRange:
   Enabled: false
 Lint/UselessAssignment:
   Enabled: false
+Lint/UnreachableCode:
+  Enabled: false
+Metrics/MethodLength:
+  Max: 15
