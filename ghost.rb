@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 GHOSTS = { blinky: 'm', inky: 'm', pinky: 'm', clyde: 'm' }.freeze
+DECISION = { 1 => 'e', 2 => 'd', 3 => 's', 4 => 'f' }.freeze
 # Ghosts... B0!!
 class Ghost
   attr_reader :pos_y, :pos_x
@@ -24,7 +25,7 @@ class Ghost
     end
   end
 
-  def move_up
+  def move_up 
     @pos_x -= 1
   end
 
@@ -39,4 +40,12 @@ class Ghost
   def move_right
     @pos_y += 1
   end
+
+  def move_the_ghost
+    random_movement = rand(1..4)
+    direction(DECISION[random_movement])
+  end
 end
+
+ghost = Ghost.new(5,6)
+print ghost.direction('s')
