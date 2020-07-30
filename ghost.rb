@@ -10,6 +10,7 @@ class Ghost
     @pos_x = pos_x
     @pos_y = pos_y
     @type = %i[blinky inky pinky clyde].sample
+    @value = ''
   end
 
   def direction(value)
@@ -25,26 +26,33 @@ class Ghost
     end
   end
 
-  def move_up 
+  def move_up
+    return move_the_ghost if (@pos_y - 1).zero?
+
     @pos_y -= 1
   end
 
   def move_down
+    return move_the_ghost if @pos_y + 1 == 21
+
     @pos_y += 1
   end
 
   def move_left
+    return move_the_ghost if (@pos_x - 1).zero?
+
     @pos_x -= 1
   end
 
   def move_right
+    return move_the_ghost if @pos_x + 1 == 41
+
     @pos_x += 1
   end
 
   def move_the_ghost
     random_movement = rand(1..4)
     direction(DECISION[random_movement])
-    puts "#{@pos_y}, #{@pos_x}"
   end
 end
 

@@ -5,8 +5,8 @@ require File.join(File.dirname(__FILE__), 'pacman')
 # Principal board class where the game execution becomes fun!!
 class Board
   def initialize
-    @pacman = Pacman.new(8, 18)
-    @ghosts = 4.times.map { Ghost.new(rand(1..38), rand(1..18)) }
+    @pacman = Pacman.new
+    @ghosts = 10.times.map { Ghost.new(rand(1..40), rand(1..20)) }
     @board = initialize_board(20, '.')
     @score = 0
   end
@@ -25,38 +25,34 @@ class Board
       (size * 2).times { row.push((rand(1..2) % 2).zero? ? value : '*') }
       board << row
     end
-    board = add_players(board, size)
-    board_frames(board)
+    board = board_frames(board)
+    add_players(board)
   end
 
-  def add_players(board, size)
+  def add_players(board)
     @ghosts.each { |ghost| board[ghost.pos_y][ghost.pos_x] = 'm' }
-    board[size / 2][size] = @pacman.avatar
+    board[@pacman.pos_y][@pacman.pos_x] = @pacman.avatar
     board
   end
 
   def board_frames(board)
     bar = 9608.chr(Encoding::UTF_8)
+    arr = Array.new(42, 9604.chr(Encoding::UTF_8))
+    arr2 = Array.new(42, 9600.chr(Encoding::UTF_8))
     board.each { |row| row.unshift(bar).push(bar) }
-    board.first.fill(9604.chr(Encoding::UTF_8))
-    board.last.fill(9600.chr(Encoding::UTF_8))
+    board.unshift(arr).push(arr2)
     board
   end
 
   def update_board
-    update_ghosts_position
-    old_board = @board
-    update_players()
+    modify_players('.')
+    @ghosts.each(&:move_the_ghost)
+    modify_players('m')
     to_console
   end
 
-  def update_players
-    @ghosts.each { |ghost| puts "#{@board[ghost.pos_y][ghost.pos_x]}"; @board[ghost.pos_y][ghost.pos_x] = 'm' }
-    # board[size / 2][size] = @pacman.avatar
-  end
-
-  def update_ghosts_position
-    @ghosts.map! { |ghost| ghost.move_the_ghost; ghost }
+  def modify_players(value)
+    @ghosts.each { |ghost| @board[ghost.pos_y][ghost.pos_x] = value }
   end
 end
 

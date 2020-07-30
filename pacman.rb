@@ -6,9 +6,9 @@ class Pacman < Ghost
   attr_accessor :pos_x, :pos_y
   attr_reader :avatar
 
-  def initialize(pos_x, pos_y)
-    @pos_x = pos_x
-    @pos_y = pos_y
+  def initialize
+    @pos_x = 20
+    @pos_y = 10
     @lives = 5
     @avatar = 'v'
   end
