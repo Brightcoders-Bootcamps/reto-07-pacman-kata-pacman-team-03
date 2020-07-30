@@ -6,12 +6,12 @@ require File.join(File.dirname(__FILE__), 'pacman')
 class Board
   def initialize
     @pacman = Pacman.new(8, 18)
-    @ghosts = 10.times.map { Ghost.new(rand(1..38), rand(1..18)) }
+    @ghosts = 4.times.map { Ghost.new(rand(1..38), rand(1..18)) }
     @board = initialize_board(20, '.')
     @score = 0
   end
 
-  def map
+  def to_console
     @board.each do |row|
       row.each { |value| print value }
       puts "\n"
@@ -42,7 +42,24 @@ class Board
     board.last.fill(9600.chr(Encoding::UTF_8))
     board
   end
+
+  def update_board
+    update_ghosts_position
+    old_board = @board
+    update_players()
+    to_console
+  end
+
+  def update_players
+    @ghosts.each { |ghost| puts "#{@board[ghost.pos_y][ghost.pos_x]}"; @board[ghost.pos_y][ghost.pos_x] = 'm' }
+    # board[size / 2][size] = @pacman.avatar
+  end
+
+  def update_ghosts_position
+    @ghosts.map! { |ghost| ghost.move_the_ghost; ghost }
+  end
 end
 
 map = Board.new
-map.map
+map.to_console
+map.update_board

@@ -26,26 +26,27 @@ class Ghost
   end
 
   def move_up 
-    @pos_x -= 1
-  end
-
-  def move_down
-    @pos_x += 1
-  end
-
-  def move_left
     @pos_y -= 1
   end
 
-  def move_right
+  def move_down
     @pos_y += 1
+  end
+
+  def move_left
+    @pos_x -= 1
+  end
+
+  def move_right
+    @pos_x += 1
   end
 
   def move_the_ghost
     random_movement = rand(1..4)
     direction(DECISION[random_movement])
+    puts "#{@pos_y}, #{@pos_x}"
   end
 end
 
-ghost = Ghost.new(5,6)
-print ghost.direction('s')
+# ghost = Ghost.new(5,6)
+# print ghost.move_the_ghost
