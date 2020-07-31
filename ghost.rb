@@ -27,25 +27,25 @@ class Ghost
   end
 
   def move_up
-    return move_the_ghost if (@pos_y - 1).zero?
+    return @pos_y = 20 if (@pos_y - 1).zero?
 
     @pos_y -= 1
   end
 
   def move_down
-    return move_the_ghost if @pos_y + 1 == 21
+    return @pos_y = 1 if @pos_y + 1 == 21
 
     @pos_y += 1
   end
 
   def move_left
-    return move_the_ghost if (@pos_x - 1).zero?
+    return @pos_x = 40 if (@pos_x - 1).zero?
 
     @pos_x -= 1
   end
 
   def move_right
-    return move_the_ghost if @pos_x + 1 == 41
+    return @pos_x = 1 if @pos_x + 1 == 41
 
     @pos_x += 1
   end
