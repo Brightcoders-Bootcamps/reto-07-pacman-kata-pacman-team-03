@@ -50,7 +50,7 @@ class Ghost
     @pos_x += 1
   end
 
-  def move_the_ghost
+  def move_yourself
     random_movement = rand(1..4)
     direction(DECISION[random_movement])
   end

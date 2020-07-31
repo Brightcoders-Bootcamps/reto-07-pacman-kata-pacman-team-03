@@ -19,25 +19,33 @@ class Board
   end
 
   def initialize_board(size)
-    board = []
-    size.times do
-      row = []
-      (size * 2).times { row << '.' }
-      board << row
-    end
+    board = Array.new(size) { Array.new(size * 2, '.') }
     board = board_frames(board)
-    add_players(board)
+    6.times { board = maze(board) }
+    update_players(board, 'm')
   end
 
-  def add_players(board)
-    @ghosts.each { |ghost| board[ghost.pos_y][ghost.pos_x] = 'm' }
+  def update_players(board, value)
+    @ghosts.each do |ghost|
+      actual_value = board[ghost.pos_y][ghost.pos_x]
+      if actual_value != 9553.chr(Encoding::UTF_8) && actual_value != 9552.chr(Encoding::UTF_8)
+        board[ghost.pos_y][ghost.pos_x] = value
+      end
+    end
     board[@pacman.pos_y][@pacman.pos_x] = @pacman.avatar
     board
   end
 
-  def maze
-    wall = Array.new(4, 9608.chr(Encoding::UTF_8))
-    @board.replace[][]
+  def maze(board)
+    wall_y = 9553.chr(Encoding::UTF_8)
+    wall_x = 9552.chr(Encoding::UTF_8)
+    rand_idy = rand(2..16)
+    rand_idx = rand(2..36)
+    4.times do |idx|
+      board[rand_idy][rand_idx + idx] = wall_x
+      board[rand_idy + idx][rand_idx] = wall_y
+    end
+    board
   end
 
   def board_frames(board)
@@ -50,14 +58,10 @@ class Board
   end
 
   def update_board
-    modify_players('.')
-    @ghosts.each(&:move_the_ghost)
-    modify_players('m')
+    update_players(@board, '.')
+    @ghosts.each(&:move_yourself)
+    update_players(@board, 'm')
     to_console
-  end
-
-  def modify_players(value)
-    @ghosts.each { |ghost| @board[ghost.pos_y][ghost.pos_x] = value }
   end
 end
 
@@ -65,7 +69,7 @@ map = Board.new
 map.to_console
 
 i = 0
-while i < 10 do
+while i < 10
   map.update_board
   i += 1
 end
