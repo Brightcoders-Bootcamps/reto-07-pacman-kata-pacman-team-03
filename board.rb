@@ -7,7 +7,7 @@ class Board
   def initialize
     @pacman = Pacman.new
     @ghosts = 10.times.map { Ghost.new(rand(1..40), rand(1..20)) }
-    @board = initialize_board(20, '.')
+    @board = initialize_board(20)
     @score = 0
   end
 
@@ -18,11 +18,11 @@ class Board
     end
   end
 
-  def initialize_board(size, value)
+  def initialize_board(size)
     board = []
     size.times do
       row = []
-      (size * 2).times { row.push((rand(1..2) % 2).zero? ? value : '*') }
+      (size * 2).times { row << '.' }
       board << row
     end
     board = board_frames(board)
@@ -33,6 +33,11 @@ class Board
     @ghosts.each { |ghost| board[ghost.pos_y][ghost.pos_x] = 'm' }
     board[@pacman.pos_y][@pacman.pos_x] = @pacman.avatar
     board
+  end
+
+  def maze
+    wall = Array.new(4, 9608.chr(Encoding::UTF_8))
+    @board.replace[][]
   end
 
   def board_frames(board)
@@ -58,4 +63,9 @@ end
 
 map = Board.new
 map.to_console
-map.update_board
+
+i = 0
+while i < 10 do
+  map.update_board
+  i += 1
+end
