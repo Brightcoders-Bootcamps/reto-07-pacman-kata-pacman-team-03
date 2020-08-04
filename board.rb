@@ -29,12 +29,7 @@ class Board
   end
 
   def update_players(board, value)
-    @ghosts.each do |ghost|
-      actual_value = board[ghost.pos_y][ghost.pos_x]
-      if actual_value != 9553.chr(Encoding::UTF_8) && actual_value != 9552.chr(Encoding::UTF_8)
-        board[ghost.pos_y][ghost.pos_x] = value
-      end
-    end
+    @ghosts.each { |ghost| board[ghost.pos_y][ghost.pos_x] = value }
     board[@pacman.pos_y][@pacman.pos_x] = @pacman.avatar
     board
   end
@@ -50,7 +45,7 @@ class Board
 
   def update_board
     update_players(@board, '.')
-    @ghosts.each(&:move_yourself)
+    @ghosts.each { |ghost| ghost.move_yourself(@board) }
     update_players(@board, 'm')
     to_console
   end
@@ -59,18 +54,18 @@ end
 map = Board.new
 map.to_console
 
-i = 9
+i = 0
 while i < 10
   map.update_board
   i += 1
 end
 
-#loop do
+# loop do
 #  system("clear")
 #  value = SDTIN.getch
 
 #  map.update_board
 #  break if (aux == "\n") || (aux == "\r")
-#end
-#map.pacman.direction(['e', 's', 'd', 'f'].sample)
-#map.update_board
+# end
+# map.pacman.direction(['e', 's', 'd', 'f'].sample)
+# map.update_board

@@ -43,8 +43,7 @@ class Pacman < Ghost
     if pacman == 'e'
       board[idy - 1][idx] == 'm' ? kill(pacman) : direction(pacman)
     elsif pacman == 'd'
-      board[idy][idx-1] == 'm' ? kill(pacman) : direction(pacman)
+      board[idy][idx - 1] == 'm' ? kill(pacman) : direction(pacman)
     end
   end
-
 end
