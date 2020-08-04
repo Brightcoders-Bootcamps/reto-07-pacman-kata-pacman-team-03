@@ -11,20 +11,71 @@ class Maze
 
   def level_1(board)
     # binding.irb
-    8.times do |idy|
-      pwr = (idy + 1) * 2
-      x_line(5, pwr, 2, board)
+    12.times do |idx|
+      pwx = (idx * 3) + 3
+      9.times do |idy|
+        pwr = (idy + 1) * 2
+        x_line(2, pwr, pwx, board)
+      end
     end
-    basic_simetric_shape(5, 9, 9, board)
+
+    10.times do |idy|
+      next if idy == 0
+      pwr = idy * 2
+      swtch = idy * 3
+      y_line(3, pwr, swtch, board)
+    end
+    
+    7.times do |idy|
+      next if idy == 0 || idy == 1
+      pwr = idy * 2
+      swtch = idy * 3
+      y_line(3, swtch, pwr, board)
+    end
+
+    7.times do |idy|
+      next if idy == 0 || idy == 1
+      pwr = idy * 2
+      swtch = idy * 6
+      y_line(3, pwr, swtch, board)
+    end
     board
   end
 
-  # def level_2(board)
-  #  5.times do |idx|
-  #    idx = idx
-  #   x_line(5, 2, 2, board)
+   def level_2(board)
+    6.times do |idx|
+      pwx = (idx * 3) + 3
+      4.times do |idy|
+        pwr = (idy + 1) * 2
+        x_line(2, pwr, pwx, board)
+      end
+    end
 
-  # end
+    6.times do |idx|
+      pwx = (idx * 3) + 22
+      4.times do |idy|
+        pwr = (idy + 1) * 2
+        y_line(2, pwr, pwx, board)
+      end
+    end
+    
+    6.times do |idx|
+      pwx = (idx * 3) + 3
+      4.times do |idy|
+        pwr = (idy + 6) * 2
+        y_line(1, pwr, pwx, board)
+      end
+    end
+
+    6.times do |idx|
+      pwx = (idx * 3) + 22
+      4.times do |idy|
+        pwr = (idy + 6) * 2
+        x_line(2, pwr, pwx, board)
+      end
+    end
+    board
+   end
 
   def basic_simetric_shape(size, add_y, add_x, board)
     size.times do |idx|

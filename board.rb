@@ -21,19 +21,6 @@ class Board
     end
   end
 
-  def initialize_board(size)
-    board = Array.new(size) { Array.new(size * 2, '.') }
-    board = board_frames(board)
-    board = @maze.level_1(board)
-    update_players(board, 'm')
-  end
-
-  def update_players(board, value)
-    @ghosts.each { |ghost| board[ghost.pos_y][ghost.pos_x] = value }
-    board[@pacman.pos_y][@pacman.pos_x] = @pacman.avatar
-    board
-  end
-
   def board_frames(board)
     bar = 9608.chr(Encoding::UTF_8)
     arr = Array.new(42, 9604.chr(Encoding::UTF_8))
@@ -43,29 +30,45 @@ class Board
     board
   end
 
-  def update_board
+  def initialize_board(size)
+    board = Array.new(size) { Array.new(size * 2, '.') }
+    board = board_frames(board)
+    board = @maze.level_2(board)
+    update_players(board, 'm')
+  end
+
+  def update_players(board, value)
+    @ghosts.each { |ghost| board[ghost.pos_y][ghost.pos_x] = value }
+    board[@pacman.pos_y][@pacman.pos_x] = @pacman.avatar
+    board
+  end
+
+  def update_board(value)
     update_players(@board, '.')
     @ghosts.each { |ghost| ghost.move_yourself(@board) }
+    @pacman.direction(value)
     update_players(@board, 'm')
     to_console
   end
+  # puts "You can start moving Pacman, using 'e' to go up, 'd' to go down, 's' to go left, and 'f' to go right"
+  #   direction = gets.chomp
+  #   @pacman.direction(direction)
 end
 
 map = Board.new
 map.to_console
 
-i = 0
-while i < 10
-  map.update_board
-  i += 1
-end
-
-# loop do
-#  system("clear")
-#  value = SDTIN.getch
-
+#i = 9
+#while i < 10
 #  map.update_board
-#  break if (aux == "\n") || (aux == "\r")
-# end
-# map.pacman.direction(['e', 's', 'd', 'f'].sample)
-# map.update_board
+#  i += 1
+#end
+
+loop do
+ aux = STDIN.gets
+
+ map.update_board(aux)
+ break if (aux == "\n") || (aux == "\r")
+end
+map.pacman.direction(['e', 's', 'd', 'f'].sample)
+map.update_board
