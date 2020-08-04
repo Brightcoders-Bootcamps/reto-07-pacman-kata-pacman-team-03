@@ -13,6 +13,11 @@ class Pacman < Ghost
     @avatar = 'v'
   end
 
+  def default_position
+    @pos_x = 20
+    @pos_y = 10
+  end
+
   def rest_lives
     @lives -= 1
   end
@@ -20,15 +25,26 @@ class Pacman < Ghost
   def direction(value)
     case value
     when 'e'
+      move_up
       @avatar = 'v'
     when 'd'
+      move_down
       @avatar = '^'
     when 's'
+      move_left
       @avatar = '>'
     when 'f'
+      move_right
       @avatar = '<'
-    else
-      puts "INVALID OPTION: #{value}"
     end
   end
+
+  def evaluate_neighbours(idx, idy, pacman)
+    if pacman == 'e'
+      board[idy - 1][idx] == 'm' ? kill(pacman) : direction(pacman)
+    elsif pacman == 'd'
+      board[idy][idx-1] == 'm' ? kill(pacman) : direction(pacman)
+    end
+  end
+
 end

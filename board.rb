@@ -2,10 +2,13 @@
 
 require File.join(File.dirname(__FILE__), 'ghost')
 require File.join(File.dirname(__FILE__), 'pacman')
+require File.join(File.dirname(__FILE__), 'maze')
 # Principal board class where the game execution becomes fun!!
 class Board
+  attr_reader :pacman
   def initialize
     @pacman = Pacman.new
+    @maze = Maze.new
     @ghosts = 10.times.map { Ghost.new(rand(1..40), rand(1..20)) }
     @board = initialize_board(20)
     @score = 0
@@ -21,7 +24,7 @@ class Board
   def initialize_board(size)
     board = Array.new(size) { Array.new(size * 2, '.') }
     board = board_frames(board)
-    6.times { board = maze(board) }
+    board = @maze.level_1(board)
     update_players(board, 'm')
   end
 
@@ -33,18 +36,6 @@ class Board
       end
     end
     board[@pacman.pos_y][@pacman.pos_x] = @pacman.avatar
-    board
-  end
-
-  def maze(board)
-    wall_y = 9553.chr(Encoding::UTF_8)
-    wall_x = 9552.chr(Encoding::UTF_8)
-    rand_idy = rand(2..16)
-    rand_idx = rand(2..36)
-    4.times do |idx|
-      board[rand_idy][rand_idx + idx] = wall_x
-      board[rand_idy + idx][rand_idx] = wall_y
-    end
     board
   end
 
@@ -68,8 +59,18 @@ end
 map = Board.new
 map.to_console
 
-i = 0
+i = 9
 while i < 10
   map.update_board
   i += 1
 end
+
+#loop do
+#  system("clear")
+#  value = SDTIN.getch
+
+#  map.update_board
+#  break if (aux == "\n") || (aux == "\r")
+#end
+#map.pacman.direction(['e', 's', 'd', 'f'].sample)
+#map.update_board

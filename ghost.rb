@@ -55,6 +55,3 @@ class Ghost
     direction(DECISION[random_movement])
   end
 end
-
-# ghost = Ghost.new(5,6)
-# print ghost.move_the_ghost
