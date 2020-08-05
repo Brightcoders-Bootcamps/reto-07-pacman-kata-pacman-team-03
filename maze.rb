@@ -10,7 +10,6 @@ class Maze
   end
 
   def level_1(board)
-    # binding.irb
     12.times do |idx|
       pwx = (idx * 3) + 3
       9.times do |idy|

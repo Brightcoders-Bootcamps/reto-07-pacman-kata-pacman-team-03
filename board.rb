@@ -8,13 +8,13 @@ class Board
   attr_reader :pacman
   def initialize
     @pacman = Pacman.new
-    @maze = Maze.new
     @ghosts = 10.times.map { Ghost.new(rand(1..40), rand(1..20)) }
     @board = initialize_board(20)
     @score = 0
   end
 
   def to_console
+    puts "\n\t\t\t\t\t\t SCORE: #{@pacman.score}"
     @board.each do |row|
       row.each { |value| print value }
       puts "\n"
@@ -33,42 +33,31 @@ class Board
   def initialize_board(size)
     board = Array.new(size) { Array.new(size * 2, '.') }
     board = board_frames(board)
-    board = @maze.level_2(board)
+    board = Maze.new.level_2(board)
     update_players(board, 'm')
   end
 
   def update_players(board, value)
+    # @ghosts.each { |ghost| board[ghost.pos_y][ghost.pos_x] = value == '.' ? ' ' : value }
     @ghosts.each { |ghost| board[ghost.pos_y][ghost.pos_x] = value }
-    board[@pacman.pos_y][@pacman.pos_x] = @pacman.avatar
+    board[@pacman.pos_y][@pacman.pos_x] = value == '.' ? ' ' : @pacman.avatar
     board
   end
 
   def update_board(value)
     update_players(@board, '.')
     @ghosts.each { |ghost| ghost.move_yourself(@board) }
-    @pacman.direction(value)
+    @pacman.move_yourself(value, @board)
     update_players(@board, 'm')
     to_console
   end
-  # puts "You can start moving Pacman, using 'e' to go up, 'd' to go down, 's' to go left, and 'f' to go right"
-  #   direction = gets.chomp
-  #   @pacman.direction(direction)
 end
 
 map = Board.new
 map.to_console
 
-#i = 9
-#while i < 10
-#  map.update_board
-#  i += 1
-#end
-
 loop do
- aux = STDIN.gets
-
- map.update_board(aux)
- break if (aux == "\n") || (aux == "\r")
+  aux = STDIN.gets.chomp
+  map.update_board(aux)
+  break if (aux == "\n") || (aux == "\r")
 end
-map.pacman.direction(['e', 's', 'd', 'f'].sample)
-map.update_board
