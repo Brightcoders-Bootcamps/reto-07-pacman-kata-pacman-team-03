@@ -1,17 +1,21 @@
 # frozen_string_literal: true
 
-require File.join(File.dirname(__FILE__), '../board')
+require File.join(File.dirname(__FILE__), '../pacman')
 
-describe Board do
-  board = Board.new
-  describe 'update_board' do
-    context 'Se a creado board...'
-    it '...y se actualizan las entidades' do
-      value = 'e'
-      board.update_board(value)
+describe Pacman do
+  pacman = Pacman.new
 
-      expect(@ghost).to be(10)
+  it 'default position should be [x, y] = [20, 10] ' do
+    expect(pacman.pos_x).to be(20)
+    expect(pacman.pos_y).to be(10)
+  end
 
-    end
+  it 'score should be initialized in zero' do
+    expect(pacman.score).to be(0)
+  end
+
+  it 'update_score sum 1 to score each time is called' do
+    12.times { pacman.update_score }
+    expect(pacman.score).to be(12)
   end
 end
