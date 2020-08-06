@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 GHOSTS = { blinky: 'm', inky: 'm', pinky: 'm', clyde: 'm' }.freeze
-DIRECTION = { 1 => 'e', 2 => 'd', 3 => 's', 4 => 'f' }.freeze
+DIRECTION = { 1 => 'e', 2 => 'd', 3 => 's', 4 => 'f', 5 => 'b' }.freeze
 # Ghosts... B0!!
 class Ghost
   attr_reader :pos_y, :pos_x
@@ -10,7 +10,6 @@ class Ghost
     @pos_x = pos_x
     @pos_y = pos_y
     @type = %i[blinky inky pinky clyde].sample
-    @value = ''
   end
 
   def direction(value)
@@ -47,6 +46,11 @@ class Ghost
   def evaluate_board_position(value)
     actual_value = @board[@pos_y][@pos_x]
     reset_movement(value) if [9553.chr(Encoding::UTF_8), 9552.chr(Encoding::UTF_8)].include?(actual_value)
+    eat_pacman if ['v', '<', '>', '^'].include?(actual_value)
+  end
+
+  def eat_pacman
+    puts '******************* Mamaste pacman *******************'
   end
 
   def reset_movement(value)
@@ -56,6 +60,6 @@ class Ghost
 
   def move_yourself(board = nil)
     @board = board unless board.nil?
-    direction(DIRECTION[rand(1..4)])
+    direction(DIRECTION[rand(1..5)])
   end
 end

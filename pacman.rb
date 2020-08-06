@@ -40,7 +40,7 @@ class Pacman < Ghost
     actual_value = @board[@pos_y][@pos_x]
     return reset_movement(value) if [9553.chr(Encoding::UTF_8), 9552.chr(Encoding::UTF_8)].include?(actual_value)
 
-    update_score
+    update_score if actual_value == '.'
   end
 
   def reset_movement(value)

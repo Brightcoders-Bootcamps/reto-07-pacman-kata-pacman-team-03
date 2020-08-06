@@ -9,72 +9,43 @@ class Maze
     @wall_x = 9552.chr(Encoding::UTF_8)
   end
 
-  def level_1(board)
-    12.times do |idx|
-      pwx = (idx * 3) + 3
-      9.times do |idy|
-        pwr = (idy + 1) * 2
-        x_line(2, pwr, pwx, board)
+  def generic_line(period, idx_offset, idy_offset, arg, flag)
+    period.first.times do |idx|
+      pwx = (idx * 3) + idx_offset
+      period.last.times do |idy|
+        pwr = (idy + idy_offset) * 2
+        flag == 'x' ? x_line(arg, pwr, pwx) : y_line(arg, pwr, pwx)
       end
     end
-
-    10.times do |idy|
-      next if idy == 0
-      pwr = idy * 2
-      swtch = idy * 3
-      y_line(3, pwr, swtch, board)
-    end
-    
-    7.times do |idy|
-      next if idy == 0 || idy == 1
-      pwr = idy * 2
-      swtch = idy * 3
-      y_line(3, swtch, pwr, board)
-    end
-
-    7.times do |idy|
-      next if idy == 0 || idy == 1
-      pwr = idy * 2
-      swtch = idy * 6
-      y_line(3, pwr, swtch, board)
-    end
-    board
   end
 
-   def level_2(board)
-    6.times do |idx|
-      pwx = (idx * 3) + 3
-      4.times do |idy|
-        pwr = (idy + 1) * 2
-        x_line(2, pwr, pwx, board)
-      end
-    end
+  def generic_form(var, switch_mult, flag)
+    var.times do |idy|
+      next if [0, 1].include?(idy)
 
-    6.times do |idx|
-      pwx = (idx * 3) + 22
-      4.times do |idy|
-        pwr = (idy + 1) * 2
-        y_line(2, pwr, pwx, board)
-      end
+      pwr = idy * 2
+      switch = idy * switch_mult
+      flag == 'y' ? y_line(3, pwr, switch) : y_line(3, switch, pwr)
     end
-    
-    6.times do |idx|
-      pwx = (idx * 3) + 3
-      4.times do |idy|
-        pwr = (idy + 6) * 2
-        y_line(1, pwr, pwx, board)
-      end
-    end
+  end
 
-    6.times do |idx|
-      pwx = (idx * 3) + 22
-      4.times do |idy|
-        pwr = (idy + 6) * 2
-        x_line(2, pwr, pwx, board)
-      end
-    end
-    board
-   end
+  def level_1(board)
+    @board = board
+    generic_line([12, 9], 3, 1, 2, 'x')
+    generic_form(10, 3, 'y')
+    generic_form(7, 3, 'x')
+    generic_form(7, 6, 'y')
+    @board
+  end
+
+  def level_2(board)
+    @board = board
+    generic_line([6, 4], 3, 1, 2, 'x')
+    generic_line([6, 4], 22, 1, 2, 'y')
+    generic_line([6, 4], 3, 6, 1, 'y')
+    generic_line([6, 4], 22, 6, 2, 'x')
+    @board
+  end
 
   def basic_simetric_shape(size, add_y, add_x, board)
     size.times do |idx|
@@ -84,17 +55,11 @@ class Maze
     board
   end
 
-  def x_line(size, add_y, add_x, board)
-    size.times do |idx|
-      board[add_y][add_x + idx] = @wall_x
-    end
-    board
+  def x_line(size, add_y, add_x)
+    size.times { |idx| @board[add_y][add_x + idx] = @wall_x }
   end
 
-  def y_line(size, add_y, add_x, board)
-    size.times do |idy|
-      board[add_y + idy][add_x] = @wall_y
-    end
-    board
+  def y_line(size, add_y, add_x)
+    size.times { |idy| @board[add_y + idy][add_x] = @wall_y }
   end
 end
