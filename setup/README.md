@@ -14,15 +14,15 @@ gem install bundler
 
 3. Desde terminal escribir:
 ```
-ruby board.rb
+ruby game.rb
 ```
 
 ## Instrucciones del juego
 1. Las teclas de movimiento son:
-* E - Arriba
-* D - Abajo
-* S - Izquierda
-* F - Derecha
+* e - Arriba
+* d - Abajo
+* s - Izquierda
+* f - Derecha
 
 ** Una vez que hayas ingresado una tecla de movimiento, presiona enter, para que puedas moverte.
 
@@ -37,5 +37,5 @@ ruby board.rb
 
 ### Integrantes
 - Andrea (Andisima)
-- Raúl Almanza (Ruli-Se)
+- Raúl Almanza (Ruli-AlSe)
 - Alejandro (alx1313)
