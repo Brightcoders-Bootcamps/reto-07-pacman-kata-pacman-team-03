@@ -33,13 +33,13 @@ class Board
   def initialize_board(size)
     board = Array.new(size) { Array.new(size * 2, '.') }
     board = board_frames(board)
-    board = Maze.new.level_2(board)
+    board = Maze.new.level_1(board)
     update_players(board, 'm')
   end
 
   def update_players(board, value)
-    # @ghosts.each { |ghost| board[ghost.pos_y][ghost.pos_x] = value == '.' ? ' ' : value }
-    @ghosts.each { |ghost| board[ghost.pos_y][ghost.pos_x] = value }
+    # @ghosts.each { |ghost| board[ghost.pos_y][ghost.pos_x] = value == 'm' ? value : '.' }
+      @ghosts.each { |ghost| board[ghost.pos_y][ghost.pos_x] = value }
     board[@pacman.pos_y][@pacman.pos_x] = value == '.' ? ' ' : @pacman.avatar
     board
   end
@@ -59,5 +59,5 @@ map.to_console
 loop do
   aux = STDIN.gets.chomp
   map.update_board(aux)
-  break if (aux == "\n") || (aux == "\r")
+  break if aux == "quit" || aux == "\r"
 end
